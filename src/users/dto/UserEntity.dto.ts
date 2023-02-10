@@ -22,6 +22,9 @@ export class UserEntity {
   @IsAscii()
   googleId: string;
 
+  @IsAscii()
+  githubId: string;
+
   @IsNotEmpty()
   password: string;
 }

@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUserGoogle } from 'src/users/decorators/getUserGoogle.decorator';
-import { CreateUserWithGoogleDto } from 'src/users/dto/CreateUserWithGoogle.dto';
-import { SignInUserDto } from 'src/users/dto/SignInUser.dto';
+import { GetOAuthUser } from 'src/users/decorators/getOAuthUser.decorator';
+import { OAuthUser } from 'src/users/interfaces/OAuthUser.interface';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -11,33 +10,30 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  loginGoogle() {
+  loginGoogle(): void {
     //never called
   }
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  loginGoogleCallback(@GetUserGoogle() user: CreateUserWithGoogleDto) {
+  loginGoogleCallback(@GetOAuthUser() user: OAuthUser) {
     //TODO not return the new user just login
-    if (user) return user;
-    else return 'no user';
-    // return this.authService.findOrCreateUserByGoogle(user);
+    const newUser = this.authService.findOrCreateUserByGoogle(user);
+    return newUser;
   }
 
   @Get('github')
   @UseGuards(AuthGuard('github'))
-  loginGithub() {
+  loginGithub(): void {
     //never called
   }
 
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
-  loginGithubCallback(@Req() req) {
-    if (req.user) {
-      return req.user;
-    } else {
-      return 'no user';
-    }
+  loginGithubCallback(@GetOAuthUser() user: OAuthUser) {
+    //TODO not return the new user just login
+    const newUser = this.authService.findOrCreateUserByGithub(user);
+    return newUser;
   }
 
   // @Post('signup')
