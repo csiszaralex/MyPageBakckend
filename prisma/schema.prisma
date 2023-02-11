@@ -16,11 +16,11 @@ model User {
   name      String
   firstName String
   isAdmin   Boolean  @default(false)
-  googleId  String?   @unique
-  githubId  String?   @unique
+  googleId  String?  @unique
+  githubId  String?  @unique
   password  String?
   salt      String?
-  //: PreferedColorShceme
+  //: PreferedColorShceme String   @default("light")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
