@@ -18,12 +18,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migrate:dev": "pnpm exec prisma migrate dev",
-    "migrate:dev:create": "pnpm exec prisma migrate dev --create-only",
-    "migrate:deploy": "pnpm exec prisma migrate deploy",
-    "prisma:generate": "pnpm exec prisma generate",
-    "prisma:studio": "pnpm exec prisma studio",
-    "prisma:seed": "pnpm exec prisma db seed"
+    "migrate:dev": "prisma migrate dev",
+    "migrate:dev:create": "prisma migrate dev --create-only",
+    "migrate:deploy": "prisma migrate deploy",
+    "prisma:generate": "prisma generate",
+    "prisma:studio": "prisma studio",
+    "prisma:seed": "prisma db seed"
   },
   "dependencies": {
     "@nestjs/axios": "^2.0.0",
