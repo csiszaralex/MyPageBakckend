@@ -1,4 +1,4 @@
-import { IsAscii, IsBoolean, IsEmail, IsInt, IsNotEmpty, IsOptional, Min } from 'class-validator';
+import { IsAscii, IsBoolean, IsEmail, IsInt, IsNotEmpty, IsOptional, Min, MinLength } from 'class-validator';
 
 export class UserEntity {
   @IsInt()
@@ -26,5 +26,6 @@ export class UserEntity {
   githubId: string;
 
   @IsNotEmpty()
+  @MinLength(8)
   password: string;
 }
