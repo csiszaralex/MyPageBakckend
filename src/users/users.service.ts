@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { User } from '@prisma/client';
 import { genSalt, hash } from 'bcrypt';
@@ -7,7 +7,7 @@ import { CreateUserWithEmailDto } from './dto/CreateUserWithEmail.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async findByGoogleId(googleId: string): Promise<User> {
     return this.prisma.user.findUnique({ where: { googleId } });
@@ -29,7 +29,7 @@ export class UsersService {
     const salt = await genSalt();
     const user = await this.findByEmail(createUserWithEmailDto.email);
     if (user) {
-      if (user.password) throw new Error('User already exists with password');
+      if (user.password) throw new ConflictException('User already exists with password');
       return this.update(user.id, {
         name: createUserWithEmailDto.name,
         firstName: createUserWithEmailDto.firstName,

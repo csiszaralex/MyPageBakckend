@@ -9,7 +9,10 @@ import { GithubEmails, GithubProfile } from '../interfaces/Github.interface';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
-  constructor(private httpService: HttpService, private configService: ConfigService<AppConfig>) {
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService<AppConfig>,
+  ) {
     super({
       clientID: configService.get<string>('auth.github.clientID'),
       clientSecret: configService.get<string>('auth.github.clientSecret'),
