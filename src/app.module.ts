@@ -10,7 +10,7 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     AuthModule,
-    ConfigModule.forRoot({ isGlobal: true, load: [appConfig] }),
+    ConfigModule.forRoot({ isGlobal: true, load: [appConfig], expandVariables: true }),
     PrismaModule,
     UsersModule,
   ],
