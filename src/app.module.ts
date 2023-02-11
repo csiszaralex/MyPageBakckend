@@ -18,7 +18,7 @@ import { AppConfig } from './config/app.config.interface';
       inject: [ConfigService],
       useFactory: (configService: ConfigService<AppConfig>) => ({
         prismaOptions: {
-          log: ['warn', 'erro'],
+          log: ['warn', 'error'],
           errorFormat:
             configService.get<string>('node_env') === 'development' ? 'pretty' : 'minimal',
         },
