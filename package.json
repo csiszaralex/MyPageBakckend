@@ -81,6 +81,11 @@
       "json",
       "ts"
     ],
+    "moduleDirectories": [
+      "mocks",
+      "node_modules",
+      "<rootDir>/.."
+    ],
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
