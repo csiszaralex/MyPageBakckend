@@ -1,4 +1,13 @@
-import { IsAscii, IsBoolean, IsEmail, IsInt, IsNotEmpty, IsOptional, Min, MinLength } from 'class-validator';
+import {
+  IsAscii,
+  IsBoolean,
+  IsEmail,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 export class UserEntity {
   @IsInt()
