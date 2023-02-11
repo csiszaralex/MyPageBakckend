@@ -1,7 +1,8 @@
-import { Logger } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { PrismaClientExceptionFilter } from 'nestjs-prisma';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -10,6 +11,16 @@ async function bootstrap() {
   const logger = new Logger('START');
   const port = configService.get('port');
 
+  openAPI(app);
+
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+
+  await app.listen(port, () => {
+    logger.debug(`---------- Server started on port ${port} ----------`);
+  });
+}
+async function openAPI(app: INestApplication) {
   const configSW = new DocumentBuilder()
     .setTitle('')
     .setDescription('')
@@ -17,9 +28,5 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, configSW);
   SwaggerModule.setup('api', app, document);
-
-  await app.listen(port, () => {
-    logger.debug(`---------- Server started on port ${port} ----------`);
-  });
 }
 bootstrap();
