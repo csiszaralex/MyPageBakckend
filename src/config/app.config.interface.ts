@@ -32,4 +32,5 @@ export interface AppConfig {
   'auth.github.callbackURL'?: string;
   'frontend.url'?: string;
   'frontend.auth_url'?: string;
+  node_env: string;
 }
