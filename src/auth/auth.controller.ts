@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { AppConfig } from 'src/config/app.config.interface';
 import { GetOAuthUser } from 'src/users/decorators/getOAuthUser.decorator';
-import { GethUser } from 'src/users/decorators/getUser.decorator';
+import { GetUser } from 'src/users/decorators/getUser.decorator';
 import { CreateUserWithEmailDto } from 'src/users/dto/CreateUserWithEmail.dto';
 import { SignInUserDto } from 'src/users/dto/SignInUser.dto';
 import { OAuthUser } from 'src/users/interfaces/OAuthUser.interface';
@@ -60,7 +60,7 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(AuthGuard())
-  getProfile(@GethUser() user: JwtPayload) {
+  getProfile(@GetUser() user: JwtPayload) {
     return user ? 'WORKS' : 'NOT WORKING';
   }
 }
