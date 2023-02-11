@@ -14,6 +14,8 @@ import { AppConfig } from './config/app.config.interface';
     ConfigModule.forRoot({ isGlobal: true, load: [appConfig], expandVariables: true }),
     PrismaModule.forRootAsync({
       isGlobal: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService<AppConfig>) => ({
         prismaOptions: {
           log: ['warn', 'error'],
