@@ -18,7 +18,7 @@ import { AppConfig } from './config/app.config.interface';
       inject: [ConfigService],
       useFactory: (configService: ConfigService<AppConfig>) => ({
         prismaOptions: {
-          log: ['warn', 'error'],
+          log: ['warn', 'erro'],
           errorFormat:
             configService.get<string>('node_env') === 'development' ? 'pretty' : 'minimal',
         },
@@ -30,11 +30,11 @@ import { AppConfig } from './config/app.config.interface';
               logLevel: 'log',
               logMessage(query: QueryInfo) {
                 return `${query.model}.${query.action}(${query.executionTime}ms)`;
-              }
-            })
-          ]
-        }
-      })
+              },
+            }),
+          ],
+        },
+      }),
     }),
     UsersModule,
   ],
