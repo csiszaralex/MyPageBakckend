@@ -30,11 +30,11 @@ import { AppConfig } from './config/app.config.interface';
               logLevel: 'log',
               logMessage(query: QueryInfo) {
                 return `${query.model}.${query.action}(${query.executionTime}ms)`;
-              },
-            }),
-          ],
-        },
-      }),
+              }
+            })
+          ]
+        }
+      })
     }),
     UsersModule,
   ],
