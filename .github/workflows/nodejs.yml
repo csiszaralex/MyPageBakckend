@@ -35,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: prisma generate
+        run: pnpm exec prisma generate --schema ./prisma/schema.prisma
+
       # - name: Run ESLint
       #   run: pnpm exec eslint . --max-warnings 0
       #   continue-on-error: true
