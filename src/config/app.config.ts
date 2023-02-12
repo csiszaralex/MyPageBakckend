@@ -16,14 +16,14 @@ export default (): AppConfig => ({
       expiresIn: process.env.JWT_EXPIRES_IN || '1d',
     },
     google: {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      clientID: process.env.GOOGLE_CLIENT_ID || 'google_client_id',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'google_client_secret',
+      callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/auth/google/callback',
     },
     github: {
-      clientID: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: process.env.GITHUB_CALLBACK_URL,
+      clientID: process.env.GITHUB_CLIENT_ID || 'github_client_id',
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || 'github_client_secret',
+      callbackURL: process.env.GITHUB_CALLBACK_URL || 'http://localhost:3000/auth/github/callback',
     },
   },
 });
