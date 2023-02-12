@@ -56,11 +56,8 @@ jobs:
           node-version: 18.x
           cache: 'pnpm'
 
-      # - name: Install dependencies
-      #   run: pnpm install
-
-      # - name: prisma generate
-      #   run: pnpm exec prisma generate --schema ./prisma/schema.prisma
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Run tests
         run: pnpm test
@@ -84,11 +81,9 @@ jobs:
           node-version: 18.x
           cache: 'pnpm'
 
-      # - name: Install dependencies
-      #   run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-      # - name: prisma generate
-      #   run: pnpm exec prisma generate --schema ./prisma/schema.prisma
 
       - name: Run tests
         run: pnpm test:e2e
