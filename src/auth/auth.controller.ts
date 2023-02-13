@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Redirect, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Redirect, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
@@ -49,14 +49,12 @@ export class AuthController {
   }
 
   @Post('signup')
-  async register(
-    @Body(ValidationPipe) createUserWithEmailDto: CreateUserWithEmailDto,
-  ): Promise<SignInPayload> {
+  async register(@Body() createUserWithEmailDto: CreateUserWithEmailDto): Promise<SignInPayload> {
     const newUser = await this.authService.register(createUserWithEmailDto);
     return this.authService.generateToken(newUser);
   }
   @Post('signin')
-  async login(@Body(ValidationPipe) signInUserDto: SignInUserDto): Promise<SignInPayload> {
+  async login(@Body() signInUserDto: SignInUserDto): Promise<SignInPayload> {
     return this.authService.login(signInUserDto);
   }
 
