@@ -1,11 +1,4 @@
-import { OmitType } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
 import { UserEntity } from './UserEntity.dto';
 
-export class SignInUserDto extends OmitType(UserEntity, [
-  'id',
-  'isAdmin',
-  'googleId',
-  'name',
-  'firstName',
-  'githubId',
-]) {}
+export class SignInUserDto extends PickType(UserEntity, ['email', 'password']) {}
