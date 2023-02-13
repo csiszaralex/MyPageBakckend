@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Redirect, UseGuards, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiHideProperty, ApiOAuth2, ApiOkResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { AppConfig } from 'src/config/app.config.interface';
 import { GetOAuthUser } from 'src/users/decorators/getOAuthUser.decorator';
 import { GetUser } from 'src/users/decorators/getUser.decorator';
@@ -12,6 +13,7 @@ import { JwtPayload } from './interfaces/JwtPayload.interface';
 import { SignInPayload } from './interfaces/SignInPayload.interface';
 
 @Controller('auth')
+@ApiTags('Authentication')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
