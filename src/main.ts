@@ -1,4 +1,4 @@
-import {  INestApplication, Logger, ValidationPipe } from '@nestjs/common';
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import {
