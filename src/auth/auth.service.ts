@@ -34,6 +34,7 @@ export class AuthService {
     return this.usersService.createWithOAuth(oAuthUser);
   }
   async register(createUserWithEmailDto: CreateUserWithEmailDto): Promise<User> {
+    //BUG it should return with full user opbject?
     const user = this.usersService.createUser(createUserWithEmailDto);
     return user;
   }
@@ -44,7 +45,7 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<User> {
     const user = await this.usersService.findByEmail(email);
     if (!user) throw new NotFoundException(`User with ${email} not found`);
-    const passwd = password.match(/^\$2b\$10\$/) ? password : await hash(password, user.salt);
+    const passwd = /^\$2b\$10\$/.test(password) ? password : await hash(password, user.salt);
     if (!(passwd === user.password)) throw new UnauthorizedException('Wrong password');
     return user;
   }

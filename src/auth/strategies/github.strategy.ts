@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-github';
 import { AppConfig } from 'src/config/app.config.interface';
-import { GithubEmails, GithubProfile } from '../interfaces/Github.interface';
+import { GithubEmails } from '../interfaces/Github.interface';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
@@ -24,8 +24,8 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
   async validate(
     accessToken: string,
     refreshToken: string,
-    profile: GithubProfile,
-    done: (undefined, any) => any,
+    profile: Strategy.Profile,
+    done: (err?: string | Error | null, user?: Express.User, info?: any) => void,
   ) {
     const { data } = await firstValueFrom(
       this.httpService.get<GithubEmails>('https://api.github.com/user/emails', {

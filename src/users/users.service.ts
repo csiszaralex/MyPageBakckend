@@ -33,7 +33,7 @@ export class UsersService {
       return this.update(user.id, {
         name: createUserWithEmailDto.name,
         firstName: createUserWithEmailDto.firstName,
-        salt: salt,
+        salt,
         password: await hash(createUserWithEmailDto.password, salt),
       });
     }
@@ -42,7 +42,7 @@ export class UsersService {
         email: createUserWithEmailDto.email,
         firstName: createUserWithEmailDto.firstName,
         name: createUserWithEmailDto.name,
-        salt: salt,
+        salt,
         password: await hash(createUserWithEmailDto.password, salt),
       },
     });
