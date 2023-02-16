@@ -20,6 +20,7 @@ model User {
   githubId  String?  @unique
   password  String?
   salt      String?
+  rtHash    String?
   //: PreferedColorShceme String   @default("light")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
