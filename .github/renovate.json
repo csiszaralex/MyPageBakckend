@@ -1,0 +1,10 @@
+{
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["eslint"],
+      "labels": ["linting"]
+    }
+  ],
+  "branchPrefix": ":arrow_up:"
+}
