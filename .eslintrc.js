@@ -19,6 +19,6 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'prettier/prettier': 'warn',
-    'max-len': ['error', { code: 100, ignoreUrls: true }],
+    'max-len': ['warn', { code: 100, ignoreUrls: true }],
   },
 };
