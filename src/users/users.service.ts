@@ -18,6 +18,9 @@ export class UsersService {
   async findByEmail(email: string): Promise<User> {
     return this.prisma.user.findUnique({ where: { email } });
   }
+  async findById(id: number): Promise<User> {
+    return this.prisma.user.findUnique({ where: { id } });
+  }
 
   async createWithOAuth(user: OAuthUser): Promise<User> {
     return this.prisma.user.create({ data: user });
@@ -46,5 +49,18 @@ export class UsersService {
         password: await hash(createUserWithEmailDto.password, salt),
       },
     });
+  }
+  async updateRtHash(userId: number, salt: string, rt: string): Promise<void> {
+    console.log('updateRtHash', userId, salt, rt);
+
+    if (salt === '') {
+      await this.prisma.user.updateMany({
+        where: { id: userId, rtHash: { not: null } },
+        data: { rtHash: null },
+      });
+      return;
+    }
+    const rtHash = await hash(rt, salt);
+    await this.prisma.user.update({ where: { id: userId }, data: { rtHash } });
   }
 }

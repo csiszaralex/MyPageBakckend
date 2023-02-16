@@ -1,5 +1,5 @@
 import { createParamDecorator } from '@nestjs/common';
-import { OAuthUser } from '../interfaces/OAuthUser.interface';
+import { OAuthUser } from '../../users/interfaces/OAuthUser.interface';
 
 export const GetOAuthUser = createParamDecorator((_, ctx) => {
   const req = ctx.switchToHttp().getRequest();

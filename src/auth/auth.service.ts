@@ -1,4 +1,10 @@
-import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { hash } from 'bcrypt';
 import { User } from '@prisma/client';
 import { CreateUserWithEmailDto } from 'src/users/dto/CreateUserWithEmail.dto';
@@ -8,6 +14,8 @@ import { UsersService } from 'src/users/users.service';
 import { SignInPayload } from './interfaces/SignInPayload.interface';
 import { JwtPayload } from './interfaces/JwtPayload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { AppConfig } from 'src/config/app.config.interface';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +23,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService<AppConfig>,
   ) {}
 
   async findOrCreateUserByGoogle(googleProfile: OAuthUser): Promise<User> {
@@ -34,8 +43,7 @@ export class AuthService {
     return this.usersService.createWithOAuth(oAuthUser);
   }
   async register(createUserWithEmailDto: CreateUserWithEmailDto): Promise<User> {
-    const user = this.usersService.createUser(createUserWithEmailDto);
-    return user;
+    return this.usersService.createUser(createUserWithEmailDto);
   }
   async login(signInUserDto: SignInUserDto): Promise<SignInPayload> {
     const user = await this.validateUser(signInUserDto.email, signInUserDto.password);
@@ -55,8 +63,28 @@ export class AuthService {
       name: user.name,
       firstName: user.firstName,
     };
-    const accessToken = await this.jwtService.sign(payload);
-    //BUG: refresh token is not working
-    return { accessToken, refreshToken: '' };
+    const accessToken = await this.jwtService.sign(payload, {
+      expiresIn: this.configService.get<string>('auth.jwt.accessToken.secret'),
+      secret: this.configService.get<string>('auth.jwt.accessToken.expiresIn'),
+    });
+    const refreshToken = await this.jwtService.sign(payload, {
+      expiresIn: this.configService.get<string>('auth.jwt.refreshToken.secret'),
+      secret: this.configService.get<string>('auth.jwt.refreshToken.expiresIn'),
+    });
+    await this.usersService.updateRtHash(user.id, user.salt, refreshToken);
+    return { accessToken, refreshToken };
+  }
+
+  async refresh(userId: number, refreshToken: string): Promise<SignInPayload> {
+    const user = await this.usersService.findById(userId);
+    if (!user) throw new ForbiddenException('Access denied');
+    const rtHash = await hash(refreshToken, user.salt);
+    if (user.rtHash !== rtHash) throw new UnauthorizedException('Invalid refresh token');
+    return this.generateToken(user);
+  }
+
+  async logout(userId: number) {
+    await this.usersService.updateRtHash(userId, '', '');
+    return { message: 'Logout successful' };
   }
 }
