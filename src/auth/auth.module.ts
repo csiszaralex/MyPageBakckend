@@ -6,7 +6,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { GithubStrategy } from './strategies/github.strategy';
 import { GoogleStrategy } from './strategies/google.strategy';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtAtStrategy } from './strategies/jwtAt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { AppConfig } from 'src/config/app.config.interface';
@@ -19,13 +19,13 @@ import { AppConfig } from 'src/config/app.config.interface';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService<AppConfig>) => ({
-        secret: configService.get<string>('auth.jwt.secret'),
-        signOptions: { expiresIn: configService.get<string>('auth.jwt.expiresIn') },
+        secret: configService.get<string>('auth.jwt.accessToken.secret'),
+        signOptions: { expiresIn: configService.get<string>('auth.jwt.accessToken.expiresIn') },
       }),
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, GoogleStrategy, GithubStrategy, JwtStrategy],
+  providers: [AuthService, GoogleStrategy, GithubStrategy, JwtAtStrategy],
 })
 export class AuthModule {}

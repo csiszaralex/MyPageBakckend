@@ -2,6 +2,6 @@
   "files.exclude": {
     // ".github": true,
     "dist": true,
-    // "**/*.spec.*": true
+    "**/*.spec.*": true
   }
 }

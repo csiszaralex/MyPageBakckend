@@ -4,12 +4,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { AppConfig } from 'src/config/app.config.interface';
 import { GetOAuthUser } from 'src/users/decorators/getOAuthUser.decorator';
-import { GetUser } from 'src/users/decorators/getUser.decorator';
 import { CreateUserWithEmailDto } from 'src/users/dto/CreateUserWithEmail.dto';
 import { SignInUserDto } from 'src/users/dto/SignInUser.dto';
 import { OAuthUser } from 'src/users/interfaces/OAuthUser.interface';
 import { AuthService } from './auth.service';
-import { JwtPayload } from './interfaces/JwtPayload.interface';
 import { SignInPayload } from './interfaces/SignInPayload.interface';
 
 @Controller('auth')
@@ -19,6 +17,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly configService: ConfigService<AppConfig>,
   ) {}
+  //#region OAuth
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
@@ -35,6 +34,7 @@ export class AuthController {
   @UseGuards(AuthGuard('google'))
   @Redirect()
   async loginGoogleCallback(@GetOAuthUser() user: OAuthUser) {
+    //TODO return with refresh token only
     const newUser = await this.authService.findOrCreateUserByGoogle(user);
     const jwt = await this.authService.generateToken(newUser);
     return { url: `${this.configService.get<string>('frontend.auth_url')}?jwt=${jwt.accessToken}` };
@@ -47,6 +47,7 @@ export class AuthController {
     const jwt = await this.authService.generateToken(newUser);
     return { url: `${this.configService.get<string>('frontend.auth_url')}?jwt=${jwt.accessToken}` };
   }
+  //#endregion
 
   @Post('signup')
   async register(@Body() createUserWithEmailDto: CreateUserWithEmailDto): Promise<SignInPayload> {
@@ -58,9 +59,13 @@ export class AuthController {
     return this.authService.login(signInUserDto);
   }
 
-  @Get('me')
-  @UseGuards(AuthGuard())
-  getProfile(@GetUser() user: JwtPayload) {
-    return user ? 'WORKS' : 'NOT WORKING';
+  @Post('refresh')
+  async refresh() {
+    return '';
+  }
+
+  @Post('logout')
+  async logout() {
+    return '';
   }
 }

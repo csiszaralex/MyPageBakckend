@@ -7,7 +7,7 @@ import { UsersService } from 'src/users/users.service';
 import { JwtPayload } from '../interfaces/JwtPayload.interface';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtAtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly configService: ConfigService<AppConfig>,
     private readonly usersService: UsersService,
@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('auth.jwt.secret'),
+      secretOrKey: configService.get<string>('auth.jwt.accessToken.secret'),
     });
   }
   async validate(payload: JwtPayload) {

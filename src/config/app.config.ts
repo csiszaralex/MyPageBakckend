@@ -12,8 +12,14 @@ export default (): AppConfig => ({
 
   auth: {
     jwt: {
-      secret: process.env.JWT_SECRET || 'secret',
-      expiresIn: process.env.JWT_EXPIRES_IN || '1d',
+      accessToken: {
+        secret: process.env.JWT_ACCESSTOKEN_SECRET || 'secret',
+        expiresIn: process.env.JWT_ACCESSTOKEN_EXPIRES_IN || '1h',
+      },
+      refreshToken: {
+        secret: process.env.JWT_REFRESHTOKEN_SECRET || 'anotherSECRET',
+        expiresIn: process.env.JWT_REFRESHTOKEN_EXPIRES_IN || '1w',
+      },
     },
     google: {
       clientID: process.env.GOOGLE_CLIENT_ID || 'google_client_id',

@@ -56,6 +56,7 @@ export class AuthService {
       firstName: user.firstName,
     };
     const accessToken = await this.jwtService.sign(payload);
-    return { accessToken };
+    //BUG: refresh token is not working
+    return { accessToken, refreshToken: '' };
   }
 }

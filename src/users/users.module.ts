@@ -10,12 +10,13 @@ import { UsersService } from './users.service';
   providers: [UsersService],
   exports: [UsersService],
   imports: [
+    //TODO Remove this line if you don't want to use JWT
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService<AppConfig>) => ({
-        secret: configService.get<string>('auth.jwt.secret'),
-        signOptions: { expiresIn: configService.get<string>('auth.jwt.expiresIn') },
+        secret: configService.get<string>('auth.jwt.accessToken.secret'),
+        signOptions: { expiresIn: configService.get<string>('auth.jwt.accessToken.expiresIn') },
       }),
     }),
   ],
