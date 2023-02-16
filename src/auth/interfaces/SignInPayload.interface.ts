@@ -1,3 +1,3 @@
-export interface SignInPayload {
+export class SignInPayload {
   accessToken: string;
 }
